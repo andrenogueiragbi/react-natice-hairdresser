@@ -15,6 +15,7 @@ export const InputArea = styled.View`
     padding: 40px;
     width: 100%;
 
+
 `
 export const CustomButton = styled.TouchableOpacity`
     height: 60px;
@@ -35,8 +36,8 @@ export const CustomButtonText = styled.Text`
 export const SignMessageButton = styled.TouchableOpacity`
     flex-direction: row;
     justifyContent: center;
-    marginTop:50px
-    marginBottom:20px
+    marginTop:5px
+    marginBottom:5px
 
 `
 export const SignMessageButtonText = styled.Text`
@@ -52,6 +53,10 @@ export const SigmMessageButtonTextBold = styled.Text`
     margin-left: 5px
 `
 
+export const LoadingIcon = styled.ActivityIndicator`
+    marginBottom: -35px
+ 
+`;
 
 /* 
 InputArea,

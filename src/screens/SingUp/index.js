@@ -29,8 +29,7 @@ export default () => {
     const handerSignClick = async () => {
         if (emailField && passwordField && nameField) {
             let json = await Api.signUp(nameField,emailField, passwordField)
-            console.log(json)
-
+ 
             if (json.token) {
                 await AsyncStorage.setItem('token', json.token)
 
@@ -61,10 +60,7 @@ export default () => {
     }
 
     const handerMessageButtonClick = () => {
-        navigation.reset({
-            routes: [{ name: 'SingIn' }]
-        })
-
+        navigation.navigate("SignIn")
     }
 
 

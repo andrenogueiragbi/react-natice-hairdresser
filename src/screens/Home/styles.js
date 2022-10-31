@@ -1,18 +1,67 @@
-
+import React from 'react';
 import styled from 'styled-components/native';
 
 export const Container = styled.SafeAreaView`
-    backgroundColor: #63c2d1;
-    flex:1;
-    justifyContent:center;
-    alignItems:center;
+    flex: 1;
+    background-color: #63C2D1;
+`;
 
-
+export const Scroller = styled.ScrollView`
+    flex: 1;
+    padding:20px
 
 `;
 
-export const LoadingIcon = styled.ActivityIndicator`
-    marginTop: 50px;
+export const HeaderArea = styled.View`
+    flex-direction: row;
+    justifyContent: space-between;
+    alignItems: center;
 
+`;
+export const HeaderTitle = styled.Text`
+    width 250px;
+    font-size:24px;
+    font-weight:bold;
+    color: #fff
+
+`;
+export const SearchButton = styled.TouchableOpacity`
+    width: 26px;
+    height: 26px;
+
+`;
+
+export const LocationArea = styled.View`
+    background: #4eadbe;
+    height: 60px;
+    border-radius: 30px;
+    flex-direction: row;
+    alignItems:center;
+    padding-left: 20px;
+    padding-right: 20px;
+    marginTop:30px;
+
+
+`;
+export const LocationInput = styled.TextInput`
+    flex: 1
+    font-size:16px;
+    color: #fff
+
+
+`;
+export const LocationFinder = styled.TouchableOpacity`
+    width: 24px;
+    height: 24px;
+
+`;
+export const LoadingIcon = styled.ActivityIndicator`
+    marginTop:50px
+ 
+`;
+export const ListArea = styled.View`
+    marginTop:30px;
+    marginBottom:30px;
+    
 
 `;

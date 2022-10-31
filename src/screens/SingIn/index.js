@@ -10,7 +10,8 @@ import {
     CustomButtonText,
     SignMessageButton,
     SignMessageButtonText,
-    SigmMessageButtonTextBold
+    SigmMessageButtonTextBold,
+    LoadingIcon,
 
 
 } from './styles'
@@ -22,11 +23,13 @@ import Api from '../../Api'
 export default () => {
     const navigation = useNavigation()
     const { dispatch: userDispatch } = useContext(UserContext)
-    const [emailField, setEmailField] = useState('')
-    const [passwordField, setPasswordField] = useState('')
+    const [emailField, setEmailField] = useState('abc@abc')
+    const [passwordField, setPasswordField] = useState('abc')
+    const [loading, setLoading] = useState(false)
 
     const handerSignClick = async () => {
         if (emailField && passwordField) {
+            setLoading(true)
             let json = await Api.signIn(emailField, passwordField)
 
 
@@ -45,7 +48,7 @@ export default () => {
                 });
 
 
-
+            setLoading(false)
             } else {
                 alert('E-mail e/ou senha errados!')
 
@@ -59,9 +62,7 @@ export default () => {
     }
 
     const handerMessageButtonClick = () => {
-        navigation.reset({
-            routes: [{ name: 'SingUp' }]
-        })
+        navigation.navigate("SingUp")
 
     }
 
@@ -69,6 +70,11 @@ export default () => {
     return (
         <Container>
             <Logo width="100%" height="160" />
+            {
+                loading && <LoadingIcon size="large" color="#fff" />
+
+            }
+            
             <InputArea>
                 <SignInput
                     name='envelope'
@@ -91,10 +97,14 @@ export default () => {
 
             </InputArea>
 
+
+
             <SignMessageButton onPress={handerMessageButtonClick}>
                 <SignMessageButtonText>Ainda não possui um conta?</SignMessageButtonText>
                 <SigmMessageButtonTextBold>Cadastre-se</SigmMessageButtonTextBold>
             </SignMessageButton>
+
+            
 
 
         </Container>

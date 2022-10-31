@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components/native";
 import { EvilIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+
+import { UserContext } from "../contexts/UserContex";
 
 import HomeIcon from '../assets/home.svg';
 import SearchIcon from '../assets/search.svg';
@@ -21,7 +23,31 @@ const TabItem = styled.TouchableOpacity`
     alignItems:center
 
 `
+
+
+const TabItemCenter = styled.TouchableOpacity`
+    width: 70px;
+    height: 70px;
+    justifyContent:center;
+    alignItems:center;
+    backgroundColor: #fff;
+    border-radius: 35px;
+    border: 3px solid #4eadbe;
+    margin-top: -20px
+
+
+`
+
+const AvatarIcon = styled.Image`
+    width:24px;
+    height: 24px;
+    border-radius: 12px
+`
+
+
 export default ({ state, navigation }) => {
+
+    const { state: user } = useContext(UserContext)
 
     const goTo = (screenName) => {
         navigation.navigate(screenName)
@@ -34,25 +60,37 @@ export default ({ state, navigation }) => {
 
         <TabArea>
 
-            <TabItem onPress={()=> goTo('Home')}>
-                <MaterialCommunityIcons name="home" size={24} color="black" />
+            <TabItem style={{ opacity: state.index === 0 ? 1 : 0.5 }} onPress={() => goTo('Home')}>
+                <MaterialCommunityIcons name="home" size={24} color="#fff" />
             </TabItem>
 
-            <TabItem  onPress={()=> goTo('Search')} >
-                <MaterialCommunityIcons name="card-search" size={24} color="black" />
+            <TabItem style={{ opacity: state.index === 1 ? 1 : 0.5 }} onPress={() => goTo('Search')} >
+                <MaterialCommunityIcons name="card-search" size={24} color="#fff" />
             </TabItem>
 
-            <TabItem onPress={()=> goTo('Appointments')} >
-                <MaterialCommunityIcons name="calendar" size={24} color="black" />
+            <TabItemCenter onPress={() => goTo('Appointments')} >
+                <MaterialCommunityIcons name="calendar" size={24} color="#4eadbe" />
+            </TabItemCenter>
+
+            <TabItem style={{ opacity: state.index === 3 ? 1 : 0.5 }} onPress={() => goTo('Favorites')}>
+                <MaterialCommunityIcons name="heart" size={32} color="#fff" />
             </TabItem>
 
-            <TabItem onPress={()=> goTo('Favorites')}>
-                <MaterialCommunityIcons name="heart" size={24} color="black" />
-            </TabItem>
+            {user.avatar ?
 
-            <TabItem onPress={()=> goTo('Profile')}>
-                <MaterialCommunityIcons name="account" size={24} color="black" />
-            </TabItem>
+                <TabItem style={{ opacity: state.index === 4 ? 1 : 0.5 }} onPress={() => goTo('Profile')}>
+                    <AvatarIcon source={{uri:user.avatar}}/>
+                </TabItem>
+
+
+                :
+                <TabItem style={{ opacity: state.index === 4 ? 1 : 0.5 }} onPress={() => goTo('Profile')}>
+                    <MaterialCommunityIcons name="account" size={24} color="#fff" />
+                </TabItem>
+
+
+
+            }
 
 
 

@@ -1,5 +1,5 @@
-/* import AsyncStorage from '@react-native-community/async-storage';
-import { add } from 'react-native-reanimated'; */
+import AsyncStorage from '@react-native-async-storage/async-storage';
+/*import { add } from 'react-native-reanimated'; */
 
 const BASE_API = 'https://api.b7web.com.br/devbarber/api';
 

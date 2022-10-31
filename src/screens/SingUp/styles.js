@@ -35,8 +35,8 @@ export const CustomButtonText = styled.Text`
 export const SignMessageButton = styled.TouchableOpacity`
     flex-direction: row;
     justifyContent: center;
-    marginTop:50px
-    marginBottom:20px
+    marginTop:5px
+    marginBottom:5px
 
 `
 export const SignMessageButtonText = styled.Text`

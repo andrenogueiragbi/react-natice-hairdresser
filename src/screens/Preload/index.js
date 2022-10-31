@@ -14,13 +14,12 @@ export default () => {
     useEffect(() => {
         const checkToken = async () => {
             const token = await AsyncStorage.getItem('token')
-            console.log(token)
-
+  
 
             if (token) {// validar o token
                 let res = await Api.checkToken(token)
 
-                console.log(res)
+        
 
                 if (res.token) {
 
@@ -44,8 +43,11 @@ export default () => {
 
 
             } else {
+                navigation.reset({
+                    routes: [{ name: 'SignIn' }]
+                });
 
-                navigation.navigate('SignIn')
+
 
             }
 
