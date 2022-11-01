@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserContext } from '../../contexts/UserContex'
+import { Alert } from 'react-native'
 
 import {
     Container,
@@ -38,24 +39,43 @@ export default () => {
 
                 userDispatch({
                     type: 'setAvatar',
-                    payload:{
+                    payload: {
                         avatar: json.data.avatar
                     }
                 });
 
                 navigation.reset({
-                    routes:[{name:'MainTab'}]
+                    routes: [{ name: 'MainTab' }]
                 });
 
 
-            setLoading(false)
+                setLoading(false)
             } else {
-                alert('E-mail e/ou senha errados!')
+
+                setLoading(false)
+                Alert.alert("Falha na autenticação:",
+                    "E-mail e/ou senha errados!",
+                    [
+                        {
+                            text: "Fechar"
+                        },
+                    ],
+
+                )
 
             }
 
         } else {
-            alert('Preencha os Campos')
+            setLoading(false)
+            Alert.alert("Preencha os campos:",
+                "Email e/ou senha inválidos",
+                [
+                    {
+                        text: "Fechar"
+                    },
+                ],
+
+            )
 
         }
 
@@ -74,7 +94,7 @@ export default () => {
                 loading && <LoadingIcon size="large" color="#fff" />
 
             }
-            
+
             <InputArea>
                 <SignInput
                     name='envelope'
@@ -104,7 +124,7 @@ export default () => {
                 <SigmMessageButtonTextBold>Cadastre-se</SigmMessageButtonTextBold>
             </SignMessageButton>
 
-            
+
 
 
         </Container>
