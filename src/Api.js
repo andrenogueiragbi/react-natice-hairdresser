@@ -11,9 +11,9 @@ export default {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({token})
+            body: JSON.stringify({ token })
         });
-        const json = await req.json();        
+        const json = await req.json();
         return json;
     },
     signIn: async (email, password) => {
@@ -23,9 +23,9 @@ export default {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({email, password})
+            body: JSON.stringify({ email, password })
         });
-        const json = await req.json();        
+        const json = await req.json();
         return json;
     },
     signUp: async (name, email, password) => {
@@ -35,9 +35,9 @@ export default {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({name, email, password})
+            body: JSON.stringify({ name, email, password })
         });
-        const json = await req.json();        
+        const json = await req.json();
         return json;
     },
     logout: async () => {
@@ -48,23 +48,23 @@ export default {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({token})
+            body: JSON.stringify({ token })
         });
-        const json = await req.json();        
+        const json = await req.json();
         return json;
     },
-    getBarbers: async (lat=null, lng=null, address=null) => {
+    getBarbers: async (lat = null, lng = null, address = null) => {
         const token = await AsyncStorage.getItem('token');
 
-/*         console.log("LAT", lat);
-        console.log("LNG", lng);
-        console.log("ADDRESS", address); */
+        /*         console.log("LAT", lat);
+                console.log("LNG", lng);
+                console.log("ADDRESS", address); */
 
         const req = await fetch(`${BASE_API}/barbers?token=${token}&lat=${lat}&lng=${lng}&address=${address}`);
         const json = await req.json();
         return json;
     },
-    getBarber: async (id) =>{
+    getBarber: async (id) => {
         const token = await AsyncStorage.getItem('token');
         const req = await fetch(`${BASE_API}/barber/${id}?token=${token}`);
 
@@ -72,8 +72,40 @@ export default {
 
         return json;
 
+    },
+    setAppointment: async (
+        userId,
+        service,
+        selectedYear,
+        selectedMonth,
+        selectedDay,
+        selectedHour,
+
+
+
+    ) => {
+        const token = await AsyncStorage.getItem('token');
+        const req = await fetch(`${BASE_API}/user/appointment`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                token,
+                userId,
+                service,
+                selectedYear,
+                selectedMonth,
+                selectedDay,
+                selectedHour,
+            })
+        });
+        const json = await req.json();
+        return json;
 
 
     }
+}
 
-};
+//setAppointment

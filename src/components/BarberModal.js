@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import ExpandIcon from '../assets/expand.svg'
 import NavPrevIcon from '../assets/nav_prev.svg'
 import NavNextIcon from '../assets/nav_next.svg'
+import Api from '../Api';
 
 const Modal = styled.Modal`
 
@@ -252,7 +253,7 @@ export default ({ show, setShow, user, service }) => {
     }, [])
 
     useEffect(() => {
-        if (selectedDay > 0 && selectedDay > 0) {
+        if (user.available && selectedDay > 0) {
             let d = new Date(selectedYear, selectedMonth, selectedDay)
             let year = d.getFullYear()
             let month = d.getMonth() + 1
@@ -263,12 +264,14 @@ export default ({ show, setShow, user, service }) => {
 
             let availability = user.available.filter(e => e.date === selDate)
 
-            if(availability.length > 0){
+            if (availability.length > 0) {
                 setlistHours(availability[0].hours)
             }
         }
 
-    }, [user,selectedDay])
+        setSelectedHour(null)
+
+    }, [user, selectedDay])
 
     const handerLeftDateClick = () => {
         console.log('voltar')
@@ -291,6 +294,47 @@ export default ({ show, setShow, user, service }) => {
     }
 
 
+    const handerFinishClick = async () => {
+        if (
+            user.id &&
+            service != null &&
+            selectedYear > 0 &&
+            selectedMonth > 0 &&
+            selectedDay > 0 &&
+            selectedHour != null
+
+        ) {
+            setShow(false)
+            navigation.navigate('Appointments')
+
+
+
+            /*         let res = await Api.setAppointment(
+                        user.id,
+                        service,
+                        selectedYear,
+                        selectedMonth,
+                        selectedDay,
+                        selectedHour
+        
+                    )
+                    if (res.erro == "") {
+                        setShow(false)
+                        navigation.navigate('Appointments')
+        
+        
+                    } else {
+                        alert(res.error)
+                    }
+         */
+
+
+        } else {
+
+        }
+
+
+    }
 
 
 
@@ -389,10 +433,19 @@ export default ({ show, setShow, user, service }) => {
                                 {listHours.map((item, key) => (
                                     <TimeItem
                                         key={key}
-                                        onPress={() => { }}
+                                        onPress={() => setSelectedHour(item)}
+                                        style={{
+                                            backgroundColor: item === selectedHour ? '#4eadbe' : '#ffffff'
+                                        }}
 
                                     >
-                                        <TimeItemText>{item}</TimeItemText>
+                                        <TimeItemText
+                                            style={{
+                                                color: item === selectedHour ? '#ffffff' : '#000000',
+                                                fontWeight: item === selectedHour ? 'bold' : 'normal'
+                                            }}
+
+                                        >{item}</TimeItemText>
 
                                     </TimeItem>
 
@@ -404,7 +457,10 @@ export default ({ show, setShow, user, service }) => {
 
                     }
 
-                    <FinishButton>
+                    <FinishButton
+                        onPress={handerFinishClick}
+
+                    >
                         <FinishButtonText>Finalizar Agendamento</FinishButtonText>
                     </FinishButton>
 
