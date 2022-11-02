@@ -2,7 +2,7 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.SafeAreaView`
-    backgroundColor: ##fff;
+    backgroundColor: #fff;
     flex:1;
 
 
@@ -11,6 +11,13 @@ export const Container = styled.SafeAreaView`
 export const Scroller = styled.ScrollView`
     flex: 1;
  
+  
+`;
+
+export const PageBody = styled.View`
+    backgroundColor: #fff;
+    border-top-left-radius:50px;
+    min-height:400px
   
 `;
 
@@ -51,13 +58,7 @@ export const FakeSwiper = styled.View`
     background-color: #63c2d1
   
 `;
-export const PageBody = styled.View`
-    backgroundColor: #fff;
-    border-top-left-radius:50px;
-    margin-top:-50px
-    min-height:400px
-  
-`;
+
 export const UserInfoArea = styled.View`
     flex-direction: row;
     margin-top: -30px;
@@ -138,8 +139,42 @@ ServiceChooseButton, */
 
 
 export const TestimonialArea = styled.View`
+    margin-top: 30px;
   
 `;
+
+export const TestimonialItem= styled.View`
+    background-color: #268596;
+    padding: 15px;
+    border-radius: 10px;
+    height: 100px;
+    justify-content: center;
+    margin-left:40px;
+    margin-right:40px
+
+
+  
+`;
+export const TestimonialInfo= styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top:5px;
+  
+`;
+export const Testimonialname= styled.Text`
+    color: #ffffff;
+    font-size: 14px;
+    fonte-width: bold;
+  
+`;
+export const TestimonialBoby= styled.Text`
+  
+`;
+
+
+
+
+
 
 export const UserAvatar = styled.Image`
     width:110px;

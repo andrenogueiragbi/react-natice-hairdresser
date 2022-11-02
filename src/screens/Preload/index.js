@@ -23,6 +23,8 @@ export default () => {
 
                 if (res.token) {
 
+                    await AsyncStorage.setItem('token',res.token)
+
                     userDispatch({
                         type: 'setAvatar',
                         payload: {

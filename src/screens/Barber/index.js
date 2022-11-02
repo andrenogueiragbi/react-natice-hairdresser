@@ -35,18 +35,30 @@ import {
     ServiceTitle,
 
     TestimonialArea,
+    TestimonialItem,
+    TestimonialInfo,
+    Testimonialname,
+    TestimonialBoby
 
 } from './styles'
 
 import FavoriteIcon from '../../assets/favorite.svg'
 import BackIcon from '../../assets/back.svg'
 import Stars from '../../components/Stars'
+import NavPrevIcon from '../../assets/nav_prev.svg'
+import NavNextIcon from '../../assets/nav_next.svg'
+import BarberModal from '../../components/BarberModal'
+//import FavoriteFullIcon from '../../assets/favorite_full.svg'
+
 
 
 export default () => {
 
+
+
     const navigation = useNavigation()
     const route = useRoute()
+
 
 
     const [userInfo, setUserInfo] = useState({
@@ -57,15 +69,23 @@ export default () => {
 
     })
 
+    
+
     const [loading, setLoading] = useState(false)
+    const [favorited, setFavorited] = useState(false)
+    const [selectedService, setSelectedService] = useState(null)
+    const [showModal, setShowModal] = useState(false)
 
 
     useEffect(() => {
         const getBarberInfo = async () => {
             setLoading(true)
+
             let json = await Api.getBarber(userInfo.id)
             if (json.error == '') {
                 setUserInfo(json.data)
+                setFavorited(json.data.favorited)
+
 
 
             } else {
@@ -88,8 +108,18 @@ export default () => {
         getBarberInfo()
     }, [])
 
-    const handlebackButton = () =>{
+    const handlebackButton = () => {
         navigation.goBack();
+
+    }
+    const handerFavClick = () => {
+        setFavorited(!favorited)
+    }
+
+    const handleServiceChoose = (key) => {
+        setSelectedService(key)
+        setShowModal(true)
+
 
     }
 
@@ -102,7 +132,7 @@ export default () => {
                             style={{ height: 240 }}
                             dot={<SwipeDot />}
                             activeDot={<SwipeDotActive />}
-                            paginationStyle={{ }}
+                            paginationStyle={{}}
                             autoplay={true}
                         >
                             {userInfo.photos.map((item, key) => (
@@ -118,61 +148,106 @@ export default () => {
                         </Swiper>
                         :
                         <FakeSwiper>
-                            {console.log("Não tem")}
+
                         </FakeSwiper>
                 }
                 <PageBody>
                     <UserInfoArea>
-                        <UserAvatar source={{uri:userInfo.avatar}}/>
-                        <UserInfo> 
+                        <UserAvatar source={{ uri: userInfo.avatar }} />
+                        <UserInfo>
                             <UserInfoName>{userInfo.name}</UserInfoName>
                             <Stars stars={userInfo.stars} showNumber={true}></Stars>
                         </UserInfo>
-                        <UserFavButton>
-                            <FavoriteIcon width="24" height="24" fill="#ff0000" />
+                        <UserFavButton onPress={handerFavClick} >
+                            {favorited ?
+                                <FavoriteIcon width="24" height="24" fill="#ff0" />
+
+
+                                :
+                                <FavoriteIcon width="24" height="24" fill="#ff0000" />
+
+                            }
                         </UserFavButton>
 
                     </UserInfoArea>
 
                     {loading &&
-                    <LoadingIcon size="large" color="#000000"/>
+                        <LoadingIcon size="large" color="#000000" />
 
                     }
 
                     {userInfo.services &&
-                    <ServiceArea>
-                        <ServiceTitle>Lista de Serviços</ServiceTitle>
-                        {userInfo.services.map((item,key)=>(
-                            <ServiceItem key={key}>
-                                <ServiceInfo>
-                                    <ServiceName>{item.name}</ServiceName>
-                                    <ServicePrice>{item.name}</ServicePrice>
-                                </ServiceInfo>
-                                <ServiceChooseButton>
-                                    <ServiceChooseBtnText>Agendar</ServiceChooseBtnText>
-                                </ServiceChooseButton>
+                        <ServiceArea>
+                            <ServiceTitle>Lista de Serviços</ServiceTitle>
+                            {userInfo.services.map((item, key) => (
+                                <ServiceItem key={key}>
+                                    <ServiceInfo>
+                                        <ServiceName>{item.name}</ServiceName>
+                                        <ServicePrice>R$ {item.price.toFixed(2)}</ServicePrice>
+                                    </ServiceInfo>
+                                    <ServiceChooseButton onPress={() => handleServiceChoose(key)}>
+                                        <ServiceChooseBtnText>Agendar</ServiceChooseBtnText>
+                                    </ServiceChooseButton>
 
-                            </ServiceItem>
+                                </ServiceItem>
 
-                        ))
+                            ))}
 
-                        }
-
-                    </ServiceArea>
+                        </ServiceArea>
                     }
 
-                    <TestimonialArea>
+                    {userInfo.testimonials && userInfo.testimonials.length > 0 &&
 
-                    </TestimonialArea>
+                        <TestimonialArea>
+                            <Swiper
+                                style={{ height: 110 }}
+                                showsPagination={false}
+                                showsButtons={true}
+                                prevButton={<NavPrevIcon width='35' height='35' fill='#000000' />}
+                                nextButton={<NavNextIcon width='35' height='35' fill='#000000' />}
+
+                            >
+                                {userInfo.testimonials.map((item, key) => (
+                                    <TestimonialItem key={key}>
+                                        <TestimonialInfo>
+                                            <Testimonialname>{item.name}</Testimonialname>
+                                            <Stars stars={item.rate} showNumber={false} />
+                                        </TestimonialInfo>
+                                        <TestimonialBoby>{item.body}</TestimonialBoby>
+
+                                    </TestimonialItem>
+                                ))
+
+                                }
+
+
+                            </Swiper>
+
+                        </TestimonialArea>
+                    }
+
                 </PageBody>
-
-
             </Scroller>
 
-            <BackButton onPress= {handlebackButton}>
-                <BackIcon width="44" height="44" fill="#ffffff"/>
-
+            <BackButton onPress={handlebackButton}>
+                <BackIcon width="44" height="44" fill="#ffffff" />
             </BackButton>
+
+            {userInfo?.services &&
+                <BarberModal
+                    show={showModal}
+                    setShow={setShowModal}
+                    user={userInfo}
+                    service={selectedService}
+
+                />
+
+            }
+
+
+
+
+
 
         </Container>
     )
